@@ -39,6 +39,7 @@ export const COLOR_SCHEMES = {
       '#0078D4', // Blue
       '#732982', // Purple
       '#613915', // Brown
+      '#5BCFFA', // Light Blue (Trans)
       '#F5A9B8', // Trans Pink
     ],
     whiteSquareColor: '#FFFFFF',
