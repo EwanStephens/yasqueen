@@ -3,7 +3,7 @@ import { Chess } from 'chess.js';
 export const parseFromPGN = (pgn: string): Chess => {
   const chess = new Chess();
   try {
-    chess.load_pgn(pgn);
+    chess.loadPgn(pgn);
     return chess;
   } catch (error) {
     throw new Error('Invalid PGN format');
@@ -33,7 +33,7 @@ export const validateFEN = (fen: string): boolean => {
 export const validatePGN = (pgn: string): boolean => {
   try {
     const chess = new Chess();
-    chess.load_pgn(pgn);
+    chess.loadPgn(pgn);
     return true;
   } catch {
     return false;

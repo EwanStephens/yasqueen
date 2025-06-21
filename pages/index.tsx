@@ -114,13 +114,13 @@ const HomePage: React.FC = () => {
               <h3 className="text-lg font-medium text-gray-800 mb-2">Game Status</h3>
               <div className="space-y-1 text-sm">
                 <p>Turn: <span className="font-mono">{chess.turn() === 'w' ? 'White' : 'Black'}</span></p>
-                <p>In Check: <span className="font-mono">{chess.in_check() ? 'Yes' : 'No'}</span></p>
-                <p>Game Over: <span className="font-mono">{chess.game_over() ? 'Yes' : 'No'}</span></p>
-                {chess.game_over() && (
+                <p>In Check: <span className="font-mono">{chess.inCheck() ? 'Yes' : 'No'}</span></p>
+                <p>Game Over: <span className="font-mono">{chess.isGameOver() ? 'Yes' : 'No'}</span></p>
+                {chess.isGameOver() && (
                   <p>Result: <span className="font-mono">
-                    {chess.in_checkmate() ? 'Checkmate' : 
-                     chess.in_stalemate() ? 'Stalemate' : 
-                     chess.in_draw() ? 'Draw' : 'Game Over'}
+                    {chess.isCheckmate() ? 'Checkmate' : 
+                     chess.isStalemate() ? 'Stalemate' : 
+                     chess.isDraw() ? 'Draw' : 'Game Over'}
                   </span></p>
                 )}
               </div>
