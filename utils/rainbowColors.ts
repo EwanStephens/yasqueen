@@ -17,6 +17,18 @@ export const COLOR_SCHEMES = {
     ],
     whiteSquareColor: DEFAULT_WHITE_SQUARE_COLOR,
   },
+  rainbow: {
+    name: 'Rainbow flag (LGBTQ)',
+    colors: [
+      '#E40303', // Red
+      '#FF8C00', // Orange
+      '#FFED00', // Yellow
+      '#008018', // Green
+      '#0078D4', // Blue
+      '#732982', // Purple
+    ],
+    whiteSquareColor: DEFAULT_WHITE_SQUARE_COLOR,
+  },
   progress: {
     name: 'Progress (Pride)',
     colors: [
@@ -27,7 +39,6 @@ export const COLOR_SCHEMES = {
       '#0078D4', // Blue
       '#732982', // Purple
       '#613915', // Brown
-      '#000000', // Black
       '#F5A9B8', // Trans Pink
     ],
     whiteSquareColor: '#FFFFFF',
@@ -81,14 +92,12 @@ export const COLOR_SCHEMES = {
     colors: [
       '#FCF434', // Yellow
       '#9C59D1', // Purple
-      '#2C2C2C', // Black
     ],
     whiteSquareColor: '#FFFFFF',
   },
   asexual: {
     name: 'Asexual (Ace)',
     colors: [
-      '#000000', // Black
       '#A3A3A3', // Gray
       '#800080', // Purple
     ],
@@ -97,7 +106,6 @@ export const COLOR_SCHEMES = {
   agender: {
     name: 'Agender',
     colors: [
-      '#000000', // Black
       '#B7B7B7', // Gray
       '#B7F684', // Light Green
     ],
@@ -108,7 +116,6 @@ export const COLOR_SCHEMES = {
     colors: [
       '#FF75A2', // Pink
       '#9B59B6', // Purple
-      '#000000', // Black
       '#0038A8', // Blue
     ],
     whiteSquareColor: '#FFFFFF',
@@ -127,7 +134,6 @@ export const COLOR_SCHEMES = {
       '#3DA542', // Green
       '#A7D379', // Light Green
       '#A3A3A3', // Gray
-      '#000000', // Black
     ],
     whiteSquareColor: '#FFFFFF',
   },
@@ -146,7 +152,6 @@ export const COLOR_SCHEMES = {
   demisexual: {
     name: 'Demisexual (Demi)',
     colors: [
-      '#000000', // Black
       '#A3A3A3', // Gray
       '#800080', // Purple
     ],
