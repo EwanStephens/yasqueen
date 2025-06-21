@@ -7,6 +7,7 @@ interface RainbowChessboardProps {
   onPieceDrop?: (sourceSquare: string, targetSquare: string) => boolean;
   boardWidth?: number;
   showNotation?: boolean;
+  colorScheme?: string;
 }
 
 const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
@@ -14,9 +15,10 @@ const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
   onPieceDrop,
   boardWidth = 400,
   showNotation = true,
+  colorScheme = 'default',
 }) => {
   const chessboardRef = useRef<any>(null);
-  const rainbowSquareStyles = generateRainbowSquareStyles();
+  const rainbowSquareStyles = generateRainbowSquareStyles(colorScheme);
 
   return (
     <div className="flex justify-center items-center">

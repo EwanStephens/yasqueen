@@ -4,12 +4,14 @@ import RainbowChessboard from '../components/RainbowChessboard';
 import ImportDialog from '../components/ImportDialog';
 import { parseFromPGN, parseFromFEN } from '../utils/chessUtils';
 import { exportChessboardAsImage } from '../utils/imageExport';
+import { COLOR_SCHEMES } from '../utils/rainbowColors';
 
 const HomePage: React.FC = () => {
   const [chess, setChess] = useState(new Chess());
   const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
   const [boardWidth, setBoardWidth] = useState(500);
   const [notification, setNotification] = useState('');
+  const [selectedColorScheme, setSelectedColorScheme] = useState('default');
 
   const showNotification = (message: string) => {
     setNotification(message);
@@ -102,6 +104,23 @@ const HomePage: React.FC = () => {
             </div>
 
             <div className="mt-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Color Scheme
+              </label>
+              <select
+                value={selectedColorScheme}
+                onChange={(e) => setSelectedColorScheme(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                {Object.entries(COLOR_SCHEMES).map(([key, scheme]) => (
+                  <option key={key} value={key}>
+                    {scheme.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mt-6">
               <h3 className="text-lg font-medium text-gray-800 mb-2">Current Position</h3>
               <div className="bg-gray-100 p-3 rounded-md">
                 <p className="text-xs text-gray-600 break-all">
@@ -133,6 +152,7 @@ const HomePage: React.FC = () => {
               position={chess.fen()}
               boardWidth={boardWidth}
               showNotation={true}
+              colorScheme={selectedColorScheme}
             />
           </div>
         </div>
