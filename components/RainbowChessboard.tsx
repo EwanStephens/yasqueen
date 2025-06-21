@@ -8,6 +8,7 @@ interface RainbowChessboardProps {
   boardWidth?: number;
   showNotation?: boolean;
   colorScheme?: string;
+  boardOrientation?: 'white' | 'black';
 }
 
 const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
@@ -16,6 +17,7 @@ const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
   boardWidth = 400,
   showNotation = true,
   colorScheme = 'default',
+  boardOrientation = 'white',
 }) => {
   const chessboardRef = useRef<any>(null);
   const rainbowSquareStyles = generateRainbowSquareStyles(colorScheme);
@@ -32,6 +34,7 @@ const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
           showBoardNotation={showNotation}
           customSquareStyles={rainbowSquareStyles}
           animationDuration={200}
+          boardOrientation={boardOrientation}
         />
       </div>
     </div>

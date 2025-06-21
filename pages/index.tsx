@@ -12,6 +12,7 @@ const HomePage: React.FC = () => {
   const [boardWidth, setBoardWidth] = useState(500);
   const [notification, setNotification] = useState('');
   const [selectedColorScheme, setSelectedColorScheme] = useState('default');
+  const [boardOrientation, setBoardOrientation] = useState<'white' | 'black'>('white');
 
   const showNotification = (message: string) => {
     setNotification(message);
@@ -45,6 +46,11 @@ const HomePage: React.FC = () => {
   const resetBoard = () => {
     setChess(new Chess());
     showNotification('Board reset to starting position');
+  };
+
+  const flipBoard = () => {
+    setBoardOrientation(boardOrientation === 'white' ? 'black' : 'white');
+    showNotification('Board flipped');
   };
 
   return (
@@ -82,10 +88,10 @@ const HomePage: React.FC = () => {
               </button>
               
               <button
-                onClick={resetBoard}
-                className="w-full bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition-colors"
+                onClick={flipBoard}
+                className="w-full bg-purple-500 text-white py-2 px-4 rounded-md hover:bg-purple-600 transition-colors"
               >
-                Reset Board
+                Flip Board
               </button>
             </div>
 
@@ -153,6 +159,7 @@ const HomePage: React.FC = () => {
               boardWidth={boardWidth}
               showNotation={true}
               colorScheme={selectedColorScheme}
+              boardOrientation={boardOrientation}
             />
           </div>
         </div>
@@ -178,8 +185,9 @@ const HomePage: React.FC = () => {
             <div>
               <h3 className="font-semibold text-lg mb-2 text-green-600">2. Customize View</h3>
               <p className="text-gray-600">
-                Adjust the board size using the slider. The rainbow color scheme uses different 
-                pastel colors for each black square while keeping white squares consistent.
+                Adjust the board size using the slider and choose from various pride flag 
+                color schemes using the dropdown menu. Each color scheme represents a different 
+                pride flag with authentic colors.
               </p>
             </div>
             <div>
