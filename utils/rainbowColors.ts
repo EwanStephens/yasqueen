@@ -1,16 +1,15 @@
 import React from 'react';
 
-// Rainbow color scheme for chessboard squares
+// Pastel color scheme for chessboard squares (4 colors from image + complementary green)
 const RAINBOW_COLORS = [
-  '#6D45B8', // Purple
-  '#0491D0', // Blue  
-  '#88BB64', // Green
-  '#F2CE3F', // Yellow
-  '#FC9548', // Orange
-  '#FB5B44', // Red
+  '#FF7F6B', // Coral/Orange
+  '#FFD93D', // Golden Yellow  
+  '#6BCFCF', // Teal/Turquoise
+  '#B19CD9', // Lavender/Purple
+  '#7ED957', // Complementary Green
 ];
 
-const WHITE_SQUARE_COLOR = '#F7F3E9'; // Cream color for white squares
+const WHITE_SQUARE_COLOR = '#F5F1E8'; // Cream/beige background color from image
 
 export const generateRainbowSquareStyles = () => {
   const squareStyles: { [square: string]: { backgroundColor: string } } = {};
