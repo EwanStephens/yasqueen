@@ -3,7 +3,7 @@ import { Chess } from 'chess.js';
 import RainbowChessboard from '../components/RainbowChessboard';
 import ImportDialog from '../components/ImportDialog';
 import { parseFromPGN, parseFromFEN } from '../utils/chessUtils';
-import { exportChessboardAsImage } from '../utils/imageExport';
+import { exportChessboardAsImage, saveToPhotos, shareChessboard, isSharingSupported } from '../utils/imageExport';
 import { COLOR_SCHEMES } from '../utils/rainbowColors';
 
 const HomePage: React.FC = () => {
@@ -14,12 +14,14 @@ const HomePage: React.FC = () => {
   const [selectedColorScheme, setSelectedColorScheme] = useState('default');
   const [boardOrientation, setBoardOrientation] = useState<'white' | 'black'>('white');
   const [isMobile, setIsMobile] = useState(false);
+  const [showShareButton, setShowShareButton] = useState(false);
 
   // Check if we're on mobile and adjust board size accordingly
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
+      setShowShareButton(isSharingSupported());
       if (mobile && boardWidth > 350) {
         setBoardWidth(Math.min(350, window.innerWidth - 40));
       }
@@ -50,12 +52,38 @@ const HomePage: React.FC = () => {
     }
   };
 
+  const handleSaveToPhotos = async () => {
+    try {
+      const success = await saveToPhotos('chessboard-container', 'yas-queen-chess-puzzle.png');
+      if (success) {
+        showNotification('Image saved! Check your Downloads or Photos app.');
+      } else {
+        showNotification('Download started - save manually to Photos if needed.');
+      }
+    } catch (error) {
+      showNotification('Error saving image');
+    }
+  };
+
+  const handleShare = async () => {
+    try {
+      const success = await shareChessboard('chessboard-container', 'yas-queen-chess-puzzle.png');
+      if (success) {
+        showNotification('Shared successfully!');
+      } else {
+        showNotification('Sharing cancelled or not supported');
+      }
+    } catch (error) {
+      showNotification('Error sharing image');
+    }
+  };
+
   const handleExportImage = async () => {
     try {
-      await exportChessboardAsImage('chessboard-container', 'rainbow-chess-puzzle.png');
-      showNotification('Image exported successfully!');
+      await exportChessboardAsImage('chessboard-container', 'yas-queen-chess-puzzle.png');
+      showNotification('Image downloaded successfully!');
     } catch (error) {
-      showNotification('Error exporting image');
+      showNotification('Error downloading image');
     }
   };
 
@@ -96,17 +124,33 @@ const HomePage: React.FC = () => {
               </button>
               
               <button
-                onClick={handleExportImage}
+                onClick={handleSaveToPhotos}
                 className="bg-green-500 text-white py-2 px-3 rounded-md hover:bg-green-600 transition-colors text-sm font-medium"
               >
-                Export Image
+                💾 Save to Photos
+              </button>
+              
+              {showShareButton && (
+                <button
+                  onClick={handleShare}
+                  className="bg-orange-500 text-white py-2 px-3 rounded-md hover:bg-orange-600 transition-colors text-sm font-medium"
+                >
+                  📤 Share
+                </button>
+              )}
+              
+              <button
+                onClick={handleExportImage}
+                className="bg-gray-500 text-white py-2 px-3 rounded-md hover:bg-gray-600 transition-colors text-sm font-medium"
+              >
+                ⬇️ Download
               </button>
               
               <button
                 onClick={flipBoard}
                 className="bg-purple-500 text-white py-2 px-3 rounded-md hover:bg-purple-600 transition-colors text-sm font-medium"
               >
-                Flip Board
+                🔄 Flip Board
               </button>
             </div>
 
@@ -239,10 +283,11 @@ const HomePage: React.FC = () => {
               </p>
             </div>
             <div>
-              <h3 className="font-semibold text-base md:text-lg mb-2 text-purple-600">3. Export Image</h3>
+              <h3 className="font-semibold text-base md:text-lg mb-2 text-purple-600">3. Save & Share</h3>
               <p className="text-gray-600">
-                Once you have your desired position, click "Export Image" to download a 
-                high-quality PNG file perfect for sharing on Instagram or other social media.
+                Use "Save to Photos" to save directly to your device's photo gallery, "Share" to share 
+                via social media or messaging apps, or "Download" for a traditional file download. 
+                Perfect for Instagram, Twitter, or any social media platform!
               </p>
             </div>
           </div>
