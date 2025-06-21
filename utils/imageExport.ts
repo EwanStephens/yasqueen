@@ -129,7 +129,6 @@ export const shareChessboard = async (elementId: string, filename: string = 'yas
           
           await navigator.share({
             title: 'Yas Queen! Chess Puzzle',
-            text: 'Check out this beautiful chess puzzle I created!',
             files: [file],
           });
           

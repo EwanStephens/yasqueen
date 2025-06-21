@@ -3,7 +3,7 @@ import { Chess } from 'chess.js';
 import RainbowChessboard from '../components/RainbowChessboard';
 import ImportDialog from '../components/ImportDialog';
 import { parseFromPGN, parseFromFEN } from '../utils/chessUtils';
-import { exportChessboardAsImage, saveToPhotos, shareChessboard, isSharingSupported } from '../utils/imageExport';
+import { exportChessboardAsImage, shareChessboard, isSharingSupported } from '../utils/imageExport';
 import { COLOR_SCHEMES } from '../utils/rainbowColors';
 
 const HomePage: React.FC = () => {
@@ -49,19 +49,6 @@ const HomePage: React.FC = () => {
       showNotification(`Successfully imported ${type.toUpperCase()}`);
     } catch (error) {
       showNotification(`Error: Invalid ${type.toUpperCase()} format`);
-    }
-  };
-
-  const handleSaveToPhotos = async () => {
-    try {
-      const success = await saveToPhotos('chessboard-container', 'yas-queen-chess-puzzle.png');
-      if (success) {
-        showNotification('Image saved! Check your Downloads or Photos app.');
-      } else {
-        showNotification('Download started - save manually to Photos if needed.');
-      }
-    } catch (error) {
-      showNotification('Error saving image');
     }
   };
 
@@ -123,13 +110,6 @@ const HomePage: React.FC = () => {
                 Import Position
               </button>
               
-              <button
-                onClick={handleSaveToPhotos}
-                className="bg-green-500 text-white py-2 px-3 rounded-md hover:bg-green-600 transition-colors text-sm font-medium"
-              >
-                💾 Save to Photos
-              </button>
-              
               {showShareButton && (
                 <button
                   onClick={handleShare}
@@ -141,7 +121,7 @@ const HomePage: React.FC = () => {
               
               <button
                 onClick={handleExportImage}
-                className="bg-gray-500 text-white py-2 px-3 rounded-md hover:bg-gray-600 transition-colors text-sm font-medium"
+                className="bg-green-500 text-white py-2 px-3 rounded-md hover:bg-green-600 transition-colors text-sm font-medium"
               >
                 ⬇️ Download
               </button>
@@ -285,8 +265,7 @@ const HomePage: React.FC = () => {
             <div>
               <h3 className="font-semibold text-base md:text-lg mb-2 text-purple-600">3. Save & Share</h3>
               <p className="text-gray-600">
-                Use "Save to Photos" to save directly to your device's photo gallery, "Share" to share 
-                via social media or messaging apps, or "Download" for a traditional file download. 
+                Use "Share" to share via social media or messaging apps, or "Download" for a traditional file download. 
                 Perfect for Instagram, Twitter, or any social media platform!
               </p>
             </div>
