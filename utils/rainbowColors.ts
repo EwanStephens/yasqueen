@@ -1,49 +1,55 @@
 import React from 'react';
 
-// Pastel rainbow colors for black squares
-export const PASTEL_RAINBOW_COLORS = [
-  '#FFB3BA', // Pastel Pink
-  '#FFDFBA', // Pastel Orange
-  '#FFFFBA', // Pastel Yellow
-  '#BAFFC9', // Pastel Green
-  '#BAE1FF', // Pastel Blue
-  '#C9BAFF', // Pastel Purple
-  '#FFBAFF', // Pastel Magenta
-  '#BAFFFF', // Pastel Cyan
+// Rainbow color scheme for chessboard squares
+const RAINBOW_COLORS = [
+  '#6D45B8', // Purple
+  '#0491D0', // Blue  
+  '#88BB64', // Green
+  '#F2CE3F', // Yellow
+  '#FC9548', // Orange
+  '#FB5B44', // Red
 ];
 
-// Light pastel color for white squares
-export const WHITE_SQUARE_COLOR = '#F7F3E9';
+const WHITE_SQUARE_COLOR = '#F7F3E9'; // Cream color for white squares
 
-// Generate rainbow square styles for the chessboard
-export const generateRainbowSquareStyles = (): { [square: string]: React.CSSProperties } => {
-  const styles: { [square: string]: React.CSSProperties } = {};
+export const generateRainbowSquareStyles = () => {
+  const squareStyles: { [square: string]: { backgroundColor: string } } = {};
   
-  // Chess board files (a-h) and ranks (1-8)
-  const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-  const ranks = ['1', '2', '3', '4', '5', '6', '7', '8'];
+  // Get all black squares in order (a8, c8, e8, g8, b7, d7, f7, h7, etc.)
+  const blackSquares: string[] = [];
   
-  let colorIndex = 0;
-  
-  for (let rankIndex = 0; rankIndex < ranks.length; rankIndex++) {
-    for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
-      const square = files[fileIndex] + ranks[rankIndex];
-      const isBlackSquare = (rankIndex + fileIndex) % 2 === 1;
+  for (let rank = 8; rank >= 1; rank--) {
+    for (let file = 0; file < 8; file++) {
+      const square = String.fromCharCode(97 + file) + rank; // Convert to chess notation
+      const isBlackSquare = (file + rank) % 2 === 1;
       
       if (isBlackSquare) {
-        // Use different rainbow colors for black squares
-        styles[square] = {
-          backgroundColor: PASTEL_RAINBOW_COLORS[colorIndex % PASTEL_RAINBOW_COLORS.length],
-        };
-        colorIndex++;
-      } else {
-        // Use consistent color for white squares
-        styles[square] = {
-          backgroundColor: WHITE_SQUARE_COLOR,
+        blackSquares.push(square);
+      }
+    }
+  }
+  
+  // Assign colors sequentially to black squares
+  blackSquares.forEach((square, index) => {
+    const colorIndex = index % RAINBOW_COLORS.length;
+    squareStyles[square] = {
+      backgroundColor: RAINBOW_COLORS[colorIndex]
+    };
+  });
+  
+  // Assign white squares the same color
+  for (let rank = 1; rank <= 8; rank++) {
+    for (let file = 0; file < 8; file++) {
+      const square = String.fromCharCode(97 + file) + rank;
+      const isWhiteSquare = (file + rank) % 2 === 0;
+      
+      if (isWhiteSquare) {
+        squareStyles[square] = {
+          backgroundColor: WHITE_SQUARE_COLOR
         };
       }
     }
   }
   
-  return styles;
+  return squareStyles;
 }; 
