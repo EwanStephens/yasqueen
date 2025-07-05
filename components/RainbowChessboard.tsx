@@ -50,7 +50,7 @@ const generateNotationStyles = (colorScheme: string = 'default') => {
     alphaNotationStyle: {
       fontSize: '13px',
       position: 'absolute' as const,
-      bottom: 3,
+      bottom: 8,
       left: 4,
       userSelect: 'none' as const,
     },
