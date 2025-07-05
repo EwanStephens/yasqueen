@@ -50,15 +50,15 @@ const generateNotationStyles = (colorScheme: string = 'default') => {
     alphaNotationStyle: {
       fontSize: '13px',
       position: 'absolute' as const,
-      bottom: 1,
-      left: 4, // Bottom-left positioning for file letters (a-h)
+      bottom: 3,
+      left: 4,
       userSelect: 'none' as const,
     },
     numericNotationStyle: {
       fontSize: '13px',
       position: 'absolute' as const,
-      top: 2,
-      right: 2, // Top-right positioning for rank numbers (1-8)
+      top: 3,
+      right: 3,
       userSelect: 'none' as const,
     },
   };
@@ -94,7 +94,15 @@ const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
 
   return (
     <div className="flex justify-center items-center">
-      <div id="chessboard-container">
+      <div 
+        id="chessboard-container" 
+        style={{ 
+          padding: '20px',
+          backgroundColor: '#ffffff',
+          borderRadius: '8px',
+          display: 'inline-block'
+        }}
+      >
         <Chessboard
           options={chessboardOptions}
         />
