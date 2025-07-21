@@ -22,9 +22,7 @@ const HomePage: React.FC = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
       setShowShareButton(isSharingSupported());
-      if (mobile && boardWidth > 350) {
-        setBoardWidth(Math.min(350, window.innerWidth - 40));
-      }
+      // Removed automatic board size restriction - let users choose their preferred size
     };
     
     checkMobile();
@@ -79,7 +77,7 @@ const HomePage: React.FC = () => {
     showNotification('Board flipped');
   };
 
-  const maxBoardWidth = isMobile ? Math.min(350, window.innerWidth - 40) : 800;
+  const maxBoardWidth = 800; // Allow 800px on both mobile and desktop
   const minBoardWidth = isMobile ? 250 : 300;
 
   return (
