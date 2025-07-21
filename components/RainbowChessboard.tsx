@@ -33,39 +33,13 @@ const generateNotationStyles = (colorScheme: string = 'default') => {
   
   // For colored squares, we need to check each color and find the most common contrast
   const coloredSquareContrasts = scheme.colors.map(color => isLightColor(color) ? '#000000' : '#FFFFFF');
-  // Use the most common contrast color, defaulting to white for dark rainbow colors
-  const coloredSquareTextColor = coloredSquareContrasts.filter(c => c === '#FFFFFF').length > scheme.colors.length / 2 ? '#FFFFFF' : '#000000';
-  
-  // Responsive positioning - use consistent spacing for all sizes now that mobile can be large
-  const bottomSpacing = 6; // Balanced spacing for all devices
-  const topSpacing = 3;    // Consistent top spacing
-  const sideSpacing = 4;   // Consistent side spacing
+  // Use the most common contrast color, defaulting to black for better readability
+  const coloredSquareTextColor = coloredSquareContrasts.filter(c => c === '#000000').length > scheme.colors.length / 2 ? '#000000' : '#FFFFFF';
   
   return {
-    lightSquareNotationStyle: {
-      color: whiteSquareTextColor,
-      fontWeight: 'bold',
-      textShadow: whiteSquareTextColor === '#000000' ? '0 0 2px rgba(255,255,255,0.8)' : '0 0 2px rgba(0,0,0,0.8)',
-    },
-    darkSquareNotationStyle: {
-      color: coloredSquareTextColor,
-      fontWeight: 'bold',
-      textShadow: coloredSquareTextColor === '#000000' ? '0 0 2px rgba(255,255,255,0.8)' : '0 0 2px rgba(0,0,0,0.8)',
-    },
-    alphaNotationStyle: {
-      fontSize: '13px',
-      position: 'absolute' as const,
-      bottom: bottomSpacing,
-      left: sideSpacing,
-      userSelect: 'none' as const,
-    },
-    numericNotationStyle: {
-      fontSize: '13px',
-      position: 'absolute' as const,
-      top: topSpacing,
-      right: sideSpacing,
-      userSelect: 'none' as const,
-    },
+    textColor: '#333333', // Dark gray for good readability on white background
+    fontSize: '14px',
+    fontWeight: 'bold' as const,
   };
 };
 
@@ -88,29 +62,112 @@ const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
     onPieceDrop,
     boardStyle: { width: `${boardWidth}px`, height: `${boardWidth}px` },
     squareStyles: rainbowSquareStyles,
-    showNotation,
-    lightSquareNotationStyle: notationStyles.lightSquareNotationStyle,
-    darkSquareNotationStyle: notationStyles.darkSquareNotationStyle,
-    alphaNotationStyle: notationStyles.alphaNotationStyle,
-    numericNotationStyle: notationStyles.numericNotationStyle,
+    showNotation: false, // Disable built-in notation
     animationDurationInMs: 200,
     boardOrientation,
-  }), [position, onPieceDrop, boardWidth, rainbowSquareStyles, showNotation, notationStyles, boardOrientation]);
+  }), [position, onPieceDrop, boardWidth, rainbowSquareStyles, boardOrientation]);
+
+  // Generate file labels (a-h) and rank labels (1-8) based on orientation
+  const files = boardOrientation === 'white' ? ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'] : ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'];
+  const ranks = boardOrientation === 'white' ? ['8', '7', '6', '5', '4', '3', '2', '1'] : ['1', '2', '3', '4', '5', '6', '7', '8'];
+
+  const squareSize = boardWidth / 8;
+
+  if (!showNotation) {
+    return (
+      <div className="flex justify-center items-center">
+        <div 
+          id="chessboard-container" 
+          style={{ 
+            padding: '35px', // Increased to match notation version
+            backgroundColor: '#ffffff',
+            borderRadius: '8px',
+            display: 'inline-block'
+          }}
+        >
+          <Chessboard
+            options={chessboardOptions}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center items-center">
       <div 
         id="chessboard-container" 
         style={{ 
-          padding: '20px',
+          padding: '35px', // Increased from 20px to accommodate external notation (25px) + buffer
           backgroundColor: '#ffffff',
           borderRadius: '8px',
           display: 'inline-block'
         }}
       >
-        <Chessboard
-          options={chessboardOptions}
-        />
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          {/* File labels (a-h) at the bottom */}
+          <div 
+            style={{ 
+              position: 'absolute',
+              bottom: -25,
+              left: 0,
+              width: `${boardWidth}px`,
+              display: 'flex',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+            }}
+          >
+            {files.map((file, index) => (
+              <div
+                key={file}
+                style={{
+                  width: `${squareSize}px`,
+                  textAlign: 'center',
+                  color: notationStyles.textColor,
+                  fontSize: notationStyles.fontSize,
+                  fontWeight: notationStyles.fontWeight,
+                }}
+              >
+                {file}
+              </div>
+            ))}
+          </div>
+
+          {/* Rank labels (1-8) on the left */}
+          <div 
+            style={{ 
+              position: 'absolute',
+              left: -25,
+              top: 0,
+              height: `${boardWidth}px`,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+            }}
+          >
+            {ranks.map((rank, index) => (
+              <div
+                key={rank}
+                style={{
+                  height: `${squareSize}px`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: notationStyles.textColor,
+                  fontSize: notationStyles.fontSize,
+                  fontWeight: notationStyles.fontWeight,
+                }}
+              >
+                {rank}
+              </div>
+            ))}
+          </div>
+
+          {/* The chessboard */}
+          <Chessboard
+            options={chessboardOptions}
+          />
+        </div>
       </div>
     </div>
   );
