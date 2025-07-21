@@ -38,7 +38,6 @@ const generateNotationStyles = (colorScheme: string = 'default') => {
   
   return {
     textColor: '#333333', // Dark gray for good readability on white background
-    fontSize: '14px',
     fontWeight: 'bold' as const,
   };
 };
@@ -72,6 +71,13 @@ const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
   const ranks = boardOrientation === 'white' ? ['8', '7', '6', '5', '4', '3', '2', '1'] : ['1', '2', '3', '4', '5', '6', '7', '8'];
 
   const squareSize = boardWidth / 8;
+  
+  // Proportional sizing based on board width
+  const fontSize = Math.max(12, Math.min(24, boardWidth * 0.035)); // 3.5% of board width, min 12px, max 24px
+  const notationSpacing = Math.max(30, boardWidth * 0.08); // 8% of board width, minimum 30px
+  const notationDistance = notationSpacing * 0.6; // Distance from board edge for rank numbers
+  const fileLetterDistance = notationDistance * 1.2; // File letters positioned slightly further
+  const containerPadding = fileLetterDistance + 10; // Notation distance + small buffer for cleaner borders
 
   if (!showNotation) {
     return (
@@ -79,7 +85,7 @@ const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
         <div 
           id="chessboard-container" 
           style={{ 
-            padding: '35px', // Increased to match notation version
+            padding: `${containerPadding}px`,
             backgroundColor: '#ffffff',
             borderRadius: '8px',
             display: 'inline-block'
@@ -98,7 +104,7 @@ const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
       <div 
         id="chessboard-container" 
         style={{ 
-          padding: '35px', // Increased from 20px to accommodate external notation (25px) + buffer
+          padding: `${containerPadding}px`, // Dynamic padding based on notation spacing
           backgroundColor: '#ffffff',
           borderRadius: '8px',
           display: 'inline-block'
@@ -109,7 +115,7 @@ const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
           <div 
             style={{ 
               position: 'absolute',
-              bottom: -25,
+              bottom: -fileLetterDistance, // Using the dedicated variable for file letters
               left: 0,
               width: `${boardWidth}px`,
               display: 'flex',
@@ -124,7 +130,7 @@ const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
                   width: `${squareSize}px`,
                   textAlign: 'center',
                   color: notationStyles.textColor,
-                  fontSize: notationStyles.fontSize,
+                  fontSize: `${fontSize}px`,
                   fontWeight: notationStyles.fontWeight,
                 }}
               >
@@ -137,7 +143,7 @@ const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
           <div 
             style={{ 
               position: 'absolute',
-              left: -25,
+              left: -notationDistance, // Using consistent spacing variable
               top: 0,
               height: `${boardWidth}px`,
               display: 'flex',
@@ -154,7 +160,7 @@ const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
                   display: 'flex',
                   alignItems: 'center',
                   color: notationStyles.textColor,
-                  fontSize: notationStyles.fontSize,
+                  fontSize: `${fontSize}px`,
                   fontWeight: notationStyles.fontWeight,
                 }}
               >
