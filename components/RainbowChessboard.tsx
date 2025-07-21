@@ -25,7 +25,7 @@ const isLightColor = (color: string): boolean => {
 };
 
 // Generate contrasting colors for notation based on square colors
-const generateNotationStyles = (colorScheme: string = 'default') => {
+const generateNotationStyles = (colorScheme: string = 'default', boardWidth: number = 400) => {
   const scheme = COLOR_SCHEMES[colorScheme as keyof typeof COLOR_SCHEMES] || COLOR_SCHEMES.default;
   
   // Determine contrasting colors for white and colored squares
@@ -35,6 +35,12 @@ const generateNotationStyles = (colorScheme: string = 'default') => {
   const coloredSquareContrasts = scheme.colors.map(color => isLightColor(color) ? '#000000' : '#FFFFFF');
   // Use the most common contrast color, defaulting to white for dark rainbow colors
   const coloredSquareTextColor = coloredSquareContrasts.filter(c => c === '#FFFFFF').length > scheme.colors.length / 2 ? '#FFFFFF' : '#000000';
+  
+  // Responsive positioning - less spacing on mobile, more on desktop for PNG export
+  const isMobile = boardWidth <= 400;
+  const bottomSpacing = isMobile ? 4 : 8; // 4px on mobile, 8px on desktop
+  const topSpacing = isMobile ? 2 : 3;    // 2px on mobile, 3px on desktop
+  const sideSpacing = isMobile ? 3 : 4;   // 3px on mobile, 4px on desktop
   
   return {
     lightSquareNotationStyle: {
@@ -50,15 +56,15 @@ const generateNotationStyles = (colorScheme: string = 'default') => {
     alphaNotationStyle: {
       fontSize: '13px',
       position: 'absolute' as const,
-      bottom: 8,
-      left: 4,
+      bottom: bottomSpacing,
+      left: sideSpacing,
       userSelect: 'none' as const,
     },
     numericNotationStyle: {
       fontSize: '13px',
       position: 'absolute' as const,
-      top: 3,
-      right: 3,
+      top: topSpacing,
+      right: sideSpacing,
       userSelect: 'none' as const,
     },
   };
@@ -75,7 +81,7 @@ const RainbowChessboard: React.FC<RainbowChessboardProps> = ({
   const rainbowSquareStyles = generateRainbowSquareStyles(colorScheme);
   
   // Generate notation styles based on the color scheme
-  const notationStyles = useMemo(() => generateNotationStyles(colorScheme), [colorScheme]);
+  const notationStyles = useMemo(() => generateNotationStyles(colorScheme, boardWidth), [colorScheme, boardWidth]);
 
   // Create chessboard options object for v5.0.0
   const chessboardOptions = useMemo(() => ({

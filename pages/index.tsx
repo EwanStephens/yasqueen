@@ -229,7 +229,7 @@ const HomePage: React.FC = () => {
             <RainbowChessboard
               position={chess.fen()}
               boardWidth={boardWidth}
-              showNotation={!isMobile} // Hide notation on very small screens
+              showNotation={true} // Always show notation on all devices
               colorScheme={selectedColorScheme}
               boardOrientation={boardOrientation}
             />
