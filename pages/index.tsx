@@ -13,6 +13,7 @@ const HomePage: React.FC = () => {
   const [notification, setNotification] = useState('');
   const [selectedColorScheme, setSelectedColorScheme] = useState('default');
   const [boardOrientation, setBoardOrientation] = useState<'white' | 'black'>('white');
+  const [showNotation, setShowNotation] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [showShareButton, setShowShareButton] = useState(false);
 
@@ -165,6 +166,19 @@ const HomePage: React.FC = () => {
               </select>
             </div>
 
+            {/* Notation Toggle */}
+            <div className="mb-4">
+              <label className="flex items-center space-x-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={showNotation}
+                  onChange={(e) => setShowNotation(e.target.checked)}
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                />
+                <span className="text-sm font-medium text-gray-700">Show Rank & File Labels</span>
+              </label>
+            </div>
+
             {/* Game Status - Collapsible on mobile, always visible on desktop */}
             <div className="space-y-3">
               <details className="lg:hidden">
@@ -227,7 +241,7 @@ const HomePage: React.FC = () => {
             <RainbowChessboard
               position={chess.fen()}
               boardWidth={boardWidth}
-              showNotation={true} // Always show notation on all devices
+              showNotation={showNotation}
               colorScheme={selectedColorScheme}
               boardOrientation={boardOrientation}
             />

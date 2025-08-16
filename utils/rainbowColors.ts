@@ -167,6 +167,18 @@ export const COLOR_SCHEMES = {
     ],
     whiteSquareColor: DEFAULT_WHITE_SQUARE_COLOR,
   },
+  disability: {
+    name: 'Disability Pride',
+    colors: [
+      '#595959', // Dark Gray
+      '#cf7280', // Rose/Pink
+      '#eede77', // Yellow
+      //'#e8e8e8', // Light Gray
+      '#7bc2e0', // Light Blue
+      '#3bb07d', // Green
+    ],
+    whiteSquareColor: '#e8e8e8',
+  },
 };
 
 // Distribution strategies for different numbers of colors
